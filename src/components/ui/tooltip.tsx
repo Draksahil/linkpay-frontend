@@ -1,0 +1,20 @@
+"use client";
+
+import { cn } from "@/lib/utils";
+import { ReactNode, useState } from "react";
+
+interface TooltipProps { content: string; children: ReactNode; side?: "top" | "bottom"; }
+
+export function Tooltip({ content, children, side = "top" }: TooltipProps) {
+  const [open, setOpen] = useState(false);
+  return (
+    <span className="relative inline-flex" onMouseEnter={() => setOpen(true)} onMouseLeave={() => setOpen(false)} onFocus={() => setOpen(true)} onBlur={() => setOpen(false)}>
+      {children}
+      {open && (
+        <span role="tooltip" className={cn("pointer-events-none absolute left-1/2 z-50 -translate-x-1/2 whitespace-nowrap rounded-lg bg-ink-950 px-2.5 py-1.5 text-xs font-medium text-white shadow-soft", side === "top" ? "bottom-full mb-2" : "top-full mt-2")}>
+          {content}
+        </span>
+      )}
+    </span>
+  );
+}
